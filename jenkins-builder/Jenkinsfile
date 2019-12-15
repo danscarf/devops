@@ -6,7 +6,11 @@ node {
     }
 
     stage('Build image') {
-        app = docker.build("dscarf/jenkins-builder:${env.BUILD_ID}")
+
+        dir("${env.WORKSPACE}/jenkins-builder"){
+            app = docker.build("dscarf/jenkins-builder:${env.BUILD_ID}")
+            sh "pwd"
+        }
     }
 
     stage('Test image') {
