@@ -6,7 +6,7 @@ node {
     }
 
     stage('Build image') {
-        app = docker.build("dscarf/hellonode:${env.BUILD_ID}")
+        app = docker.build("dscarf/jenkins-builder:${env.BUILD_ID}")
     }
 
     stage('Test image') {
