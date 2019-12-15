@@ -6,7 +6,7 @@ node {
     }
 
     stage('Build image') {
-        app = docker.build("danscarf/hellonode")
+        app = docker.build("dscarf/hellonode:${env.BUILD_ID}")
     }
 
     stage('Test image') {
@@ -17,7 +17,7 @@ node {
 
     stage('Push image') {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            app.push("${env.BUILD_NUMBER}")
+            app.push("${env.ID}")
             app.push("latest")
         }
     }
