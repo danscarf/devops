@@ -1,0 +1,15 @@
+---
+#   - debug: msg="Registering this system with {{ redhat_username }} and password {{ redhat_password }}"
+
+# Demonstrates how to read secrets or other data from the control node's env...
+  - name: Ensure server is registered with RedHat.
+    redhat_subscription:
+      state: present
+      username: "{{ redhat_username }}"
+      password: "{{ redhat_password }}"
+      auto_attach: true
+
+  - name: Upgrade all packages prior to doing any work on this server
+    yum:
+      state: latest
+      name: '*'

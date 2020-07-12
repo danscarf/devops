@@ -1,0 +1,5 @@
+[efk_servers]
+elk
+
+[awx_servers]
+awx
