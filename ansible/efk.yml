@@ -2,3 +2,4 @@
 - hosts: efk_servers
   roles:
   - common
+  - openjdk

@@ -1,0 +1,6 @@
+---
+  - name: Install openjdk using Jeff Geerling's Galaxy module
+    include_role:
+      name: geerlingguy.java # required. The name of the role to be executed.
+    # vars:
+    #   - java_packages: java-1.8.0-openjdk
