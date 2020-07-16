@@ -1,3 +1,15 @@
 ---
-  - name: Download Ansible installer
-    
+  - name: Determine if we need to download the Elasticsearch RPM
+    stat:
+        path: /tmp/elasticsearch-7.8.0-x86_64.rpm
+    register: ansiRpm
+
+
+  - name: Download Ansible RPM
+    get_url:
+        dest: /tmp/elasticsearch-7.8.0-x86_64.rpm
+        url: https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.8.0-x86_64.rpm
+        force: no
+        checksum: sha256:164c7c9e5e373e8902a2654ed6b44ec92f1a587f94ce687431fe4d1b0bb4648e
+        validate_certs: yes
+    when: not ansiRpm.stat.exists
