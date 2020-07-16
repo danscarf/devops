@@ -13,3 +13,21 @@
         checksum: sha256:164c7c9e5e373e8902a2654ed6b44ec92f1a587f94ce687431fe4d1b0bb4648e
         validate_certs: yes
     when: not ansiRpm.stat.exists
+
+  - name: Check if elastic rpm is installed
+    command: rpm -q elasticsearch
+    register: rpmCheck
+
+  - name: Install Elasticsearch rpm
+    yum:
+      name: /tmp/elasticsearch-7.8.0-x86_64.rpm
+      state: present
+    when:
+      - ansiRpm.stat.exists
+      - rpmCheck.rc == 1
+
+  - name: Ensure Elasticsearch service is enabled and running
+    service:
+      name: elasticsearch
+      enabled: yes
+      state: started
