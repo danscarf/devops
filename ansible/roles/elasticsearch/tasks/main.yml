@@ -15,7 +15,9 @@
     when: not ansiRpm.stat.exists
 
   - name: Check if elastic rpm is installed
-    command: rpm -q elasticsearch
+    command:
+      cmd: rpm -q elasticsearch
+      warn: no
     register: rpmCheck
 
   - name: Install Elasticsearch rpm
