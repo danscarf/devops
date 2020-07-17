@@ -4,3 +4,4 @@
   - common
   - openjdk
   - elasticsearch
+  - fluentd

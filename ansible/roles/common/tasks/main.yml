@@ -13,3 +13,9 @@
     yum:
       state: latest
       name: '*'
+
+  - name: Enable and configure NTP
+    include_role:
+      name: geerlingguy.ntp
+    vars:
+      - ntp_timezone: America/Los_Angeles

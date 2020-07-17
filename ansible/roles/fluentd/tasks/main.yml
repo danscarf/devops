@@ -1,0 +1,5 @@
+---
+
+  - name: Install Fluentd
+    debug:
+        msg: "This is where we will install Fluentd."
