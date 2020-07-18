@@ -3,3 +3,41 @@
   - name: Install Fluentd
     debug:
         msg: "This is where we will install Fluentd."
+
+  - name: Modify some limits for Fluentd
+    pam_limits:
+        domain: root
+        value: 65536
+        limit_item: nofile
+        limit_type: soft
+
+  - name: Modify some limits for Fluentd
+    pam_limits:
+        domain: root
+        value: 65536
+        limit_item: nofile
+        limit_type: hard
+
+  - name:  Apply sysctl.conf edits
+    sysctl:
+      name: "{{ item.name }}"
+      value: "{{ item.val }}"
+    loop:
+      - { name: 'net.core.somaxconn', val: '1024' }
+      - { name: 'net.core.netdev_max_backlog', val: '5000' }
+      - { name: 'net.core.rmem_max', val: '16777216' }
+      - { name: 'net.core.wmem_max', val: '16777216' }
+      - { name: 'net.ipv4.tcp_wmem', val: '4096 12582912 16777216' }
+      - { name: 'net.ipv4.tcp_rmem', val: '4096 12582912 16777216' }
+      - { name: 'net.ipv4.tcp_max_syn_backlog', val: '8096' }
+      - { name: 'net.ipv4.tcp_slow_start_after_idle', val: '0' }
+      - { name: 'net.ipv4.tcp_tw_reuse', val: '1' }
+      - { name: 'net.ipv4.ip_local_port_range', val: '10240 65535' }
+
+  - name: Install Ruby packages
+    yum:
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - ruby
+      - ruby-devel
