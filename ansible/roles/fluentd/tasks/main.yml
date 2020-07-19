@@ -48,3 +48,29 @@
         name: fluentd
         include_doc: no # not required. Install with or without docs.
         user_install: no
+
+  - name: Create the /etc/fluent dir if it does not exist
+    file:
+      path: /etc/fluent
+      state: directory
+      mode: '0755'
+
+  - name: Copy fluent.conf file from template to target
+    template:
+        dest: /etc/fluent/fluent.conf
+        src: fluent.conf.j2
+        force: yes
+        owner: root
+
+  - name: Copy fluentd.service file to systemd
+    template:
+        dest: /etc/systemd/system/fluentd.service
+        src: fluentd.service.j2
+        force: yes
+        owner: root
+
+  - name: Start service fluentd, if not started
+    service:
+      name: fluentd
+      state: started
+      enabled: yes
