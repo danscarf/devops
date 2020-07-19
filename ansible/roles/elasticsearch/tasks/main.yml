@@ -14,11 +14,12 @@
         validate_certs: yes
     when: not ansiRpm.stat.exists
 
-  - name: Check if elastic rpm is installed
-    command:
-      cmd: rpm -q elasticsearch
-      warn: no
-    register: rpmCheck
+  # - name: Check if elastic rpm is installed
+  #   command:
+  #     cmd: rpm -q elasticsearch
+  #     warn: no
+  #   ignore_errors: yes
+  #   register: rpmCheck
 
   - name: Install Elasticsearch rpm
     yum:
@@ -26,7 +27,7 @@
       state: present
     when:
       - ansiRpm.stat.exists
-      - rpmCheck.rc == 1
+      # - rpmCheck.rc == 1
 
   - name: Ensure Elasticsearch service is enabled and running
     service:

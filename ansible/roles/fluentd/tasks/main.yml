@@ -34,10 +34,17 @@
       - { name: 'net.ipv4.tcp_tw_reuse', val: '1' }
       - { name: 'net.ipv4.ip_local_port_range', val: '10240 65535' }
 
-  - name: Install Ruby packages
+  - name: Install dev tools and Ruby packages
     yum:
       name: "{{ packages }}"
     vars:
       packages:
+      - "@Development tools"
       - ruby
       - ruby-devel
+
+  - name: Install Fluentd Ruby gem
+    gem:
+        name: fluentd
+        include_doc: no # not required. Install with or without docs.
+        user_install: no
