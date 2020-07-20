@@ -1,0 +1,30 @@
+---
+  - name: Determine if we need to download the Kibana RPM
+    stat:
+        path: /tmp/kibana-7.8.0-x86_64.rpm
+    register: kibRpm
+
+
+  - name: Download Kibana RPM
+    get_url:
+        dest: /tmp/kibana-7.8.0-x86_64.rpm
+        url: https://artifacts.elastic.co/downloads/kibana/kibana-7.8.0-x86_64.rpm
+        force: no
+        checksum: sha256:4c2e2a6e039d38d7acb7ad6c374a18474eb5324ff880539c5b06c94128df4d61
+        validate_certs: yes
+    when: not kibRpm.stat.exists
+
+
+  - name: Install Kibana rpm
+    yum:
+      name: /tmp/kibana-7.8.0-x86_64.rpm
+      state: present
+    when:
+      # - kibRpm.stat.exists
+      # - rpmCheck.rc == 1
+
+  - name: Ensure Kibana service is enabled and running
+    service:
+      name: kibana
+      enabled: yes
+      state: started

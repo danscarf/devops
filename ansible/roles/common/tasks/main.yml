@@ -13,6 +13,13 @@
     yum:
       state: latest
       name: '*'
+  
+  - name: Add some useful packages
+    yum:
+      state: present
+      name:
+      - net-tools
+      
 
   - name: Enable and configure NTP
     include_role:
