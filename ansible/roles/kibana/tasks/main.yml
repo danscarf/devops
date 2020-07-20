@@ -1,9 +1,16 @@
 ---
+
+  - name: Open Kibana UI port permanently
+    firewalld:
+      port: 5601/tcp
+      permanent: yes
+      immediate: yes
+      state: enabled
+
   - name: Determine if we need to download the Kibana RPM
     stat:
         path: /tmp/kibana-7.8.0-x86_64.rpm
     register: kibRpm
-
 
   - name: Download Kibana RPM
     get_url:
@@ -13,7 +20,6 @@
         checksum: sha256:4c2e2a6e039d38d7acb7ad6c374a18474eb5324ff880539c5b06c94128df4d61
         validate_certs: yes
     when: not kibRpm.stat.exists
-
 
   - name: Install Kibana rpm
     yum:
@@ -28,3 +34,12 @@
       name: kibana
       enabled: yes
       state: started
+
+  - name: Copy kibana.yml file from template to target
+    template:
+      dest: /etc/kibana/kibana.yml
+      src: kibana.yml.j2
+      force: yes
+      owner: root
+    notify:
+      - restart_kibana

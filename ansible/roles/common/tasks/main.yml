@@ -1,5 +1,5 @@
 ---
-#   - debug: msg="Registering this system with {{ redhat_username }} and password {{ redhat_password }}"
+  #  - debug: msg="Debug '{{ansible_fqdn}}' "
 
 # Demonstrates how to read secrets or other data from the control node's env...
   - name: Ensure server is registered with RedHat.
@@ -9,7 +9,7 @@
       password: "{{ redhat_password }}"
       auto_attach: true
 
-  - name: Upgrade all packages prior to doing any work on this server
+  - name: Upgrade all packages
     yum:
       state: latest
       name: '*'
@@ -19,7 +19,7 @@
       state: present
       name:
       - net-tools
-      
+      - telnet
 
   - name: Enable and configure NTP
     include_role:
