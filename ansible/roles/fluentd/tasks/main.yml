@@ -45,9 +45,12 @@
 
   - name: Install Fluentd Ruby gem
     gem:
-        name: fluentd
-        include_doc: no # not required. Install with or without docs.
-        user_install: no
+      include_doc: no # not required. Install with or without docs.
+      user_install: no
+      name: "{{ item }}"
+    loop:
+      - fluentd
+      - fluent-plugin-elasticsearch
 
   - name: Create the /etc/fluent dir if it does not exist
     file:
@@ -57,17 +60,21 @@
 
   - name: Copy fluent.conf file from template to target
     template:
-        dest: /etc/fluent/fluent.conf
-        src: fluent.conf.j2
-        force: yes
-        owner: root
+      dest: /etc/fluent/fluent.conf
+      src: fluent.conf.j2
+      force: yes
+      owner: root
+    notify:
+      - restart_fluentd
 
   - name: Copy fluentd.service file to systemd
     template:
-        dest: /etc/systemd/system/fluentd.service
-        src: fluentd.service.j2
-        force: yes
-        owner: root
+      dest: /etc/systemd/system/fluentd.service
+      src: fluentd.service.j2
+      force: yes
+      owner: root
+    notify:
+      - restart_fluentd
 
   - name: Start service fluentd, if not started
     service:
