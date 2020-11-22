@@ -8,6 +8,9 @@
       notify:
         - reboot_pihole
 
+    - name: Update pihole itself
+      command: pihole -up
+
   handlers:
     - name: reboot_pihole
       command: reboot
