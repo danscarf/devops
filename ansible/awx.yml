@@ -1,0 +1,5 @@
+---
+- hosts: awx_servers
+  roles:
+  - common
+  - awx

@@ -1,0 +1,97 @@
+---
+# tasks file for awx
+# vars:
+#   nodejs_version: "6.x"
+#   pip_install_packages:
+#     - name: docker-py
+
+
+- name: Install the EPEL repo
+  include_role:
+    name: geerlingguy.repo-epel
+
+- name: Install Git
+  include_role:
+    name: geerlingguy.git
+
+- name: Install Ansible
+  include_role:
+    name: geerlingguy.ansible
+
+- name: Install Docker
+  include_role:
+    name: geerlingguy.docker
+  vars:
+    - docker_install_compose: true
+    - docker_users:
+      - dan
+
+- name: Fix firewalld settings for Docker DNS
+  firewalld:
+    masquerade: "yes"
+    state: enabled
+    permanent: true
+    zone: public
+  notify:
+    - reload_firewalld
+
+- name: Flush handlers
+  meta: flush_handlers
+
+# See this https://www.reddit.com/r/CentOS/comments/dze8kj/docker_w_centos_8_and_a_firewall/
+# firewall-cmd --zone=trusted --change-interface=docker0 --permanent
+# firewall-cmd --zone=trusted --add-masquerade --permanent
+# firewall-cmd --reload
+- name: Add docker0 interface to the trusted zone
+  firewalld:
+    immediate: yes
+    interface: docker0
+    state: enabled
+    zone: trusted
+  notify:
+    - reload_firewalld
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Fix firewalld settings for Docker
+  firewalld:
+    masquerade: "yes"
+    state: enabled
+    permanent: true
+    zone: trusted
+  notify:
+  - reload_firewalld
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Install the latest pip package
+  include_role:
+    name: geerlingguy.pip
+  vars:
+    - pip_install_packages:
+      - name: pip
+        state: latest
+      - name: docker
+        state: latest
+      - name: docker-compose
+        state: latest
+
+
+- name: Install NodeJS
+  include_role:
+    name: geerlingguy.nodejs
+  vars:
+    nodejs_version: "10.x"
+
+
+# - name: Install NodeJS
+#   yum:
+#     name: nodejs
+
+- name: Install AWX
+  include_role:
+    name: geerlingguy.awx
+  vars:
+    - awx_version: 15.0.0
