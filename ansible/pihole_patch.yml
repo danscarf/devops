@@ -1,7 +1,13 @@
-- name: Hello World Sample
+- name: Patch all things Pihole related
   hosts: all
   tasks:
-    - name: Hello Message
-      debug:
-        msg: "Hello World!"
+    - name: Update OS packages
+      apt:
+        name: "*"
+        state: latest
+      notify:
+        - reboot_pihole
 
+  handlers:
+    - name: reboot_pihole
+      command: reboot
