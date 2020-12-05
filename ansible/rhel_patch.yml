@@ -10,4 +10,4 @@
 
   handlers:
     - name: reboot_node
-      command: reboot
+      reboot:

@@ -13,4 +13,4 @@
 
   handlers:
     - name: reboot_pihole
-      command: reboot
+      reboot:
