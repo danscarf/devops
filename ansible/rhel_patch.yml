@@ -1,0 +1,13 @@
+- name: Patch all RHEL packages
+  hosts: all
+  tasks:
+    - name: Update OS packages
+      yum:
+        name: "*"
+        state: latest
+      notify:
+        - reboot_node
+
+  handlers:
+    - name: reboot_node
+      command: reboot
