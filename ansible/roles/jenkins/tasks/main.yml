@@ -1,0 +1,22 @@
+---
+# tasks file for jenkins
+  - name: Ensure Hashicorp Yum repo is present
+    yum_repository:
+      name: hashicorp
+      description: Hashicorp Stable - $basearch
+      baseurl: https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable
+      gpgkey: https://rpm.releases.hashicorp.com/gpg
+      enabled: yes
+      gpgcheck: yes
+
+  - name: Ensure packer is installed
+    yum:
+      name:
+      - packer
+      state: present
+
+  - name: Create a symbolic link
+    file:
+      src: /usr/bin/packer
+      dest: /usr/bin/packer.io
+      state: link

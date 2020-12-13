@@ -8,11 +8,15 @@
       username: "{{ redhat_username }}"
       password: "{{ redhat_password }}"
       auto_attach: true
+    tags:
+      - register
 
   - name: Upgrade all packages
     yum:
       state: latest
       name: '*'
+    tags:
+      - upgrade
   
   - name: Add some useful packages
     yum:
@@ -20,7 +24,8 @@
       name:
       - net-tools
       - telnet
-
+    tags:
+      - common_pkgs
   # - name: Enable and configure NTP
   #   include_role:
   #     name: geerlingguy.ntp
