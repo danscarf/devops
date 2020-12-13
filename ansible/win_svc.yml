@@ -1,0 +1,21 @@
+- name: Keep some win services running
+  hosts: winhost
+  tasks:
+    - name: Set service startup mode to auto and ensure it is started
+      win_service:
+        name: spooler
+        start_mode: auto
+        state: started
+
+    - name: Disable dowloaded maps service
+      win_service:
+        name: MapsBroker
+        start_mode: disabled
+        state: stopped
+
+    - name: 
+      win_regedit:
+        path: HKCU:\Software\MyCompany
+        name: hello
+        data: 1337
+        type: dword

@@ -77,6 +77,8 @@
         state: latest
       - name: docker-compose
         state: latest
+      - name: pywinrm
+        state: latest
 
 
 - name: Install NodeJS

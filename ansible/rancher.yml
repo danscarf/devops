@@ -1,0 +1,5 @@
+---
+- hosts: rancher_servers
+  roles:
+  - common
+  - rancher

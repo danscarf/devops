@@ -1,0 +1,27 @@
+---
+#    - debug: msg="Debug Rancher task "
+
+  - name: Install Docker
+    include_role:
+      name: geerlingguy.docker
+    vars:
+      - docker_install_compose: true
+      - docker_users:
+        - dan
+
+  - name: Fix firewalld settings for Docker DNS
+    firewalld:
+      masquerade: yes
+      state: enabled
+      permanent: true
+      zone: public
+
+  - name: Install the latest pip package
+    include_role:
+      name: geerlingguy.pip
+    vars:
+      - pip_install_packages:
+        - name: pip
+          state: latest
+        - name: docker
+          state: latest
