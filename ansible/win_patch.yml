@@ -1,0 +1,14 @@
+- name: Run Updates on App Servers and wait 10 mins
+  hosts: all
+
+  tasks:
+    win_updates:
+      category_names:
+        - CriticalUpdates
+        - DefinitionUpdates
+        - SecurityUpdates
+        - Updates
+      whitelist:
+        - KB4022723
+    reboot: yes
+    reboot_timeout: 1200
