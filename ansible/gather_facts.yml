@@ -1,5 +1,6 @@
 - name: Print all available facts
   hosts: all
+  gather_facts: true
   tasks:
     - name: Print all facts
       debug:
