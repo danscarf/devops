@@ -1,14 +1,16 @@
 - name: Run Updates on Windows Servers and wait 20 mins
   hosts: all
+  gather_facts: true
 
   tasks:
-    win_updates:
-      category_names:
-        - CriticalUpdates
-        - DefinitionUpdates
-        - SecurityUpdates
-        - Updates
-      whitelist:
-        - KB4022723
-    reboot: yes
-    reboot_timeout: 1200
+    - name: Apply Win updates
+      win_updates:
+        category_names:
+          - CriticalUpdates
+          - DefinitionUpdates
+          - SecurityUpdates
+          - Updates
+        whitelist:
+          - KB4022723
+        reboot: yes
+        reboot_timeout: 1200
