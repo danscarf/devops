@@ -10,6 +10,7 @@
           - DefinitionUpdates
           - SecurityUpdates
           - Updates
+          - UpdateRollups
         whitelist:
           - KB4022723
         reboot: yes
