@@ -1,4 +1,4 @@
-- name: Run Updates on App Servers and wait 10 mins
+- name: Run Updates on Windows Servers and wait 20 mins
   hosts: all
 
   tasks:
