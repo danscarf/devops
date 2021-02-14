@@ -1,4 +1,22 @@
 ---
+  - name: Ensure port 8080 is open
+    firewalld:
+      port: 8080/tcp
+      permanent: yes
+      state: enabled
+      immediate: yes
+    notify:
+    - reload_firewalld
+    
+  - name: Flush handlers
+    meta: flush_handlers
+
+  - name: Install Jenkins using Jeff Geerling's Galaxy module
+    include_role:
+      name: geerlingguy.jenkins
+    vars:
+      - jenkins_hostname: build.home
+
 # tasks file for jenkins
   - name: Ensure Hashicorp Yum repo is present
     yum_repository:

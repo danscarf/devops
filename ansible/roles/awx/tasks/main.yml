@@ -1,10 +1,4 @@
 ---
-# tasks file for awx
-# vars:
-#   nodejs_version: "6.x"
-#   pip_install_packages:
-#     - name: docker-py
-
 
 - name: Install the EPEL repo
   include_role:

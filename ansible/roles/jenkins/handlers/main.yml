@@ -1,2 +1,3 @@
 ---
-# handlers file for jenkins
+  - name: reload_firewalld
+    command: firewall-cmd --reload
