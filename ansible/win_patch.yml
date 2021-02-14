@@ -6,10 +6,26 @@
     - name: Apply Win updates
       win_updates:
         category_names:
+          - Application
+          - Connectors
           - CriticalUpdates
           - DefinitionUpdates
           - SecurityUpdates
+          - Tools
           - Updates
           - UpdateRollups
         reboot: yes
         reboot_timeout: 1200
+
+# - Application
+# - Connectors
+# - CriticalUpdates
+# - DefinitionUpdates
+# - DeveloperKits
+# - FeaturePacks
+# - Guidance
+# - Security Updates
+# - Service Packs
+# - Tools
+# - Update Rollups
+# - Updates
